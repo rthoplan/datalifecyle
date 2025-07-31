@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Quick Tour of SQL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .stage-btn {
+            transition: all 0.3s ease-in-out;
+        }
+        .details-content {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-gray-800 p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">A Quick Tour of SQL</h1>
+            <p class="mt-3 text-lg text-gray-600">An interactive guide to the Structured Query Language.</p>
+        </header>
+
+        <!-- Get Started with MySQL Section -->
+        <div class="bg-blue-50 border-2 border-blue-200 p-6 rounded-2xl shadow-md mb-12">
+            <h2 class="text-2xl font-bold text-blue-800 mb-4 text-center">Get Started with MySQL</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- MySQL Server -->
+                <div class="text-center">
+                    <h3 class="text-xl font-semibold text-blue-900">1. MySQL Community Server</h3>
+                    <p class="text-blue-700 my-2">This is the core database engine that stores and manages your data. You need to install this first.</p>
+                    <a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-lg transform hover:-translate-y-0.5">
+                        Download Server
+                    </a>
+                </div>
+                <!-- MySQL Workbench -->
+                <div class="text-center">
+                    <h3 class="text-xl font-semibold text-blue-900">2. MySQL Workbench</h3>
+                    <p class="text-blue-700 my-2">This is a visual tool (GUI) that helps you write queries, design databases, and manage your server.</p>
+                    <a href="https://dev.mysql.com/downloads/workbench/" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-lg transform hover:-translate-y-0.5">
+                        Download Workbench
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Section: What is SQL & Why Use SQL -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <!-- What is SQL? -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    What is SQL?
+                </h2>
+                <p class="text-gray-700 leading-relaxed">
+                    <strong>Structured Query Language</strong> – a declarative standard for defining, manipulating, and querying data in relational databases. First created at IBM in the 1970s (originally SEQUEL), SQL underpins systems from <strong>MySQL</strong> and <strong>PostgreSQL</strong> to <strong>Snowflake</strong> and <strong>BigQuery</strong>.
+                </p>
+            </div>
+            <!-- Why use SQL? -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+                 <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    Why use SQL in this module?
+                </h2>
+                <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                    <li>Lets you <strong>filter, aggregate, and join</strong> gigabyte-scale tables close to the storage layer.</li>
+                    <li><strong>Integrates seamlessly with R</strong> via DBI, odbc, and dbplyr.</li>
+                    <li>Combine strong back-end queries with <strong>R-side modelling</strong>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Interactive Workflow Section -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center">SQL Task Categories</h2>
+            
+            <!-- Stage Buttons -->
+            <div id="stage-buttons" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4 mb-6 bg-slate-100 p-2 rounded-xl">
+                <!-- Buttons injected by JS -->
+            </div>
+
+            <!-- Details Panel -->
+            <div id="details-panel" class="bg-slate-50 p-6 rounded-lg min-h-[150px]">
+                <!-- Details injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const taskCategories = [
+            {
+                id: 'ddl',
+                name: 'Data Definition',
+                color: 'blue',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" /></svg>',
+                features: 'CREATE TABLE, ALTER, DROP, data types, constraints (PRIMARY KEY, CHECK)',
+                why: 'Sets the schema and guards data quality before rows are inserted.'
+            },
+            {
+                id: 'dml',
+                name: 'Data Manipulation',
+                color: 'purple',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /></svg>',
+                features: 'INSERT, UPDATE, DELETE, MERGE',
+                why: 'Add or revise rows in transactional or staging tables.'
+            },
+            {
+                id: 'dql',
+                name: 'Data Query',
+                color: 'teal',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>',
+                features: 'SELECT … FROM … WHERE …, GROUP BY, HAVING, ORDER BY',
+                why: 'Bread-and-butter analytics: filtering, aggregating, sorting.'
+            },
+            {
+                id: 'joins',
+                name: 'Joins & Set Ops',
+                color: 'orange',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" /></svg>',
+                features: 'INNER, LEFT, FULL, UNION, INTERSECT, EXCEPT',
+                why: 'Combine tables or result sets without data duplication.'
+            },
+            {
+                id: 'analytical',
+                name: 'Analytical Extras',
+                color: 'red',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0V6h-1a1 1 0 110-2h1V3a1 1 0 011-1zM11 13a1 1 0 011-1h1a1 1 0 110 2h-1a1 1 0 01-1-1zm-1 5a1 1 0 011-1h1a1 1 0 110 2h-1a1 1 0 01-1-1z" clip-rule="evenodd" /></svg>',
+                features: 'Window functions (ROW_NUMBER, LAG), CTEs (WITH …), subqueries',
+                why: 'Express advanced calculations (running totals, cohort analyses) in one pass.'
+            },
+            {
+                id: 'performance',
+                name: 'Performance',
+                color: 'green',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.789 0l-2 4A1 1 0 008 8h4a1 1 0 00.894-1.447l-2-4zM14 12a1 1 0 10-2 0v5a1 1 0 102 0v-5zM4 12a1 1 0 10-2 0v5a1 1 0 102 0v-5z" /></svg>',
+                features: 'Indexes, EXPLAIN, views, role/grant syntax',
+                why: 'Speed up queries, abstract complexity, and enforce least-privilege access.'
+            }
+        ];
+
+        let activeStageId = 'dql';
+
+        const stageButtonsContainer = document.getElementById('stage-buttons');
+        const detailsPanel = document.getElementById('details-panel');
+
+        function renderButtons() {
+            stageButtonsContainer.innerHTML = '';
+            taskCategories.forEach(stage => {
+                const isActive = stage.id === activeStageId;
+                const activeClasses = `bg-${stage.color}-500 text-white shadow-md`;
+                const inactiveClasses = `bg-white text-gray-700 hover:bg-gray-200`;
+                
+                const button = document.createElement('button');
+                button.className = `stage-btn flex items-center justify-center text-sm sm:text-base font-semibold p-3 rounded-lg ${isActive ? activeClasses : inactiveClasses}`;
+                button.dataset.id = stage.id;
+                button.innerHTML = `${stage.icon} ${stage.name}`;
+
+                button.addEventListener('click', () => {
+                    activeStageId = stage.id;
+                    render();
+                });
+
+                stageButtonsContainer.appendChild(button);
+            });
+        }
+
+        function renderDetails() {
+            const stage = taskCategories.find(s => s.id === activeStageId);
+            if (!stage) return;
+
+            detailsPanel.innerHTML = `
+                <div class="details-content">
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Core Keywords / Features</h4>
+                        <p class="mt-1 text-lg font-medium text-${stage.color}-700">${stage.features}</p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-200">
+                        <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Why It Matters</h4>
+                        <p class="mt-1 text-gray-700">${stage.why}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function render() {
+            renderButtons();
+            renderDetails();
+        }
+
+        document.addEventListener('DOMContentLoaded', render);
+
+    </script>
+</body>
+</html>
