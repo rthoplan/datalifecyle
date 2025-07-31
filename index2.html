@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide to Data Sources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .data-card .details {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+            transform: translateY(-10px);
+        }
+        .data-card.active .details {
+            max-height: 500px; /* Large enough to fit content */
+            opacity: 1;
+            transform: translateY(0);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid;
+        }
+        .data-card .arrow {
+            transition: transform 0.3s ease-in-out;
+        }
+        .data-card.active .arrow {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">An Interactive Guide to Data Sources</h1>
+            <p class="mt-2 text-lg text-gray-600">Click on any category to expand and see details.</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+
+            <!-- Internal Data Sources Column -->
+            <section class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 text-blue-600 p-3 rounded-full mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Internal Data Sources</h2>
+                        <p class="text-gray-500">Data originating from within the organization.</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <!-- Customer Data -->
+                    <div class="data-card p-4 rounded-lg bg-blue-50 border-l-4 border-blue-500 cursor-pointer" data-category="internal">
+                        <div class="summary flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-blue-900">Customer Data</h3>
+                            <div class="arrow text-blue-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div>
+                        </div>
+                        <div class="details border-blue-200 text-blue-800">
+                            <p>Feedback forms, surveys, customer support logs, CRM systems</p>
+                        </div>
+                    </div>
+                    <!-- Employee Data -->
+                    <div class="data-card p-4 rounded-lg bg-blue-50 border-l-4 border-blue-500 cursor-pointer" data-category="internal">
+                        <div class="summary flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-blue-900">Employee Data</h3>
+                            <div class="arrow text-blue-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div>
+                        </div>
+                        <div class="details border-blue-200 text-blue-800">
+                            <p>Payroll systems, performance evaluations, satisfaction surveys</p>
+                        </div>
+                    </div>
+                    <!-- Marketing Data -->
+                    <div class="data-card p-4 rounded-lg bg-blue-50 border-l-4 border-blue-500 cursor-pointer" data-category="internal">
+                        <div class="summary flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-blue-900">Marketing Data</h3>
+                            <div class="arrow text-blue-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div>
+                        </div>
+                        <div class="details border-blue-200 text-blue-800">
+                            <p>Website analytics, email marketing tools, social media insights</p>
+                        </div>
+                    </div>
+                    <!-- Operational Data -->
+                    <div class="data-card p-4 rounded-lg bg-blue-50 border-l-4 border-blue-500 cursor-pointer" data-category="internal">
+                        <div class="summary flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-blue-900">Operational Data</h3>
+                            <div class="arrow text-blue-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div>
+                        </div>
+                        <div class="details border-blue-200 text-blue-800">
+                            <p>Sales transactions, customer service records, inventory logs</p>
+                        </div>
+                    </div>
+                     <!-- Production Data -->
+                    <div class="data-card p-4 rounded-lg bg-blue-50 border-l-4 border-blue-500 cursor-pointer" data-category="internal">
+                        <div class="summary flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-blue-900">Production Data</h3>
+                            <div class="arrow text-blue-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div>
+                        </div>
+                        <div class="details border-blue-200 text-blue-800">
+                            <p>Machine sensors, production output, defect rates, quality control</p>
+                        </div>
+                    </div>
+                    <!-- Financial Data -->
+                    <div class="data-card p-4 rounded-lg bg-blue-50 border-l-4 border-blue-500 cursor-pointer" data-category="internal">
+                        <div class="summary flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-blue-900">Financial Data</h3>
+                            <div class="arrow text-blue-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div>
+                        </div>
+                        <div class="details border-blue-200 text-blue-800">
+                            <p>Budget reports, balance sheets, income statements, cash flows</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- External Data Sources Column -->
+            <section class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+                <div class="flex items-center mb-6">
+                    <div class="bg-purple-100 text-purple-600 p-3 rounded-full mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h10a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.707 4.293l.5-1.5A2 2 0 0110.121 2h3.758a2 2 0 011.914 1.793l.5 1.5M15 11v6l-3-3-3 3v-6" /></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">External Data Sources</h2>
+                        <p class="text-gray-500">Data collected from outside the organization.</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <!-- Public Data -->
+                    <div class="data-card p-4 rounded-lg bg-purple-50 border-l-4 border-purple-500 cursor-pointer" data-category="external">
+                        <div class="summary flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-purple-900">Public Data</h3>
+                            <div class="arrow text-purple-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div>
+                        </div>
+                        <div class="details border-purple-200 text-purple-800">
+                            <p>Government portals, research journals, newspapers</p>
+                        </div>
+                    </div>
+                    <!-- Social Media Data -->
+                    <div class="data-card p-4 rounded-lg bg-purple-50 border-l-4 border-purple-500 cursor-pointer" data-category="external">
+                        <div class="summary flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-purple-900">Social Media Data</h3>
+                            <div class="arrow text-purple-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div>
+                        </div>
+                        <div class="details border-purple-200 text-purple-800">
+                            <p>Twitter, Facebook, LinkedIn posts, user-generated content</p>
+                        </div>
+                    </div>
+                    <!-- Web Scraping -->
+                    <div class="data-card p-4 rounded-lg bg-purple-50 border-l-4 border-purple-500 cursor-pointer" data-category="external">
+                        <div class="summary flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-purple-900">Web Scraping</h3>
+                            <div class="arrow text-purple-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div>
+                        </div>
+                        <div class="details border-purple-200 text-purple-800">
+                            <p>Automated extraction of competitor pricing, reviews, product listings</p>
+                        </div>
+                    </div>
+                    <!-- IoT Data -->
+                    <div class="data-card p-4 rounded-lg bg-purple-50 border-l-4 border-purple-500 cursor-pointer" data-category="external">
+                        <div class="summary flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-purple-900">IoT Data</h3>
+                            <div class="arrow text-purple-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div>
+                        </div>
+                        <div class="details border-purple-200 text-purple-800">
+                            <p>Sensor data from wearables, smart home devices, industrial IoT systems</p>
+                        </div>
+                    </div>
+                    <!-- Open Data -->
+                    <div class="data-card p-4 rounded-lg bg-purple-50 border-l-4 border-purple-500 cursor-pointer" data-category="external">
+                        <div class="summary flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-purple-900">Open Data</h3>
+                            <div class="arrow text-purple-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div>
+                        </div>
+                        <div class="details border-purple-200 text-purple-800">
+                            <p>Aggregated or high-level public datasets freely available (e.g., World Bank, UN, data.gov)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.data-card');
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // Find other active cards in the same category and close them
+                    const category = card.dataset.category;
+                    const activeCards = document.querySelectorAll(`.data-card[data-category="${category}"].active`);
+                    
+                    activeCards.forEach(activeCard => {
+                        if (activeCard !== card) {
+                            activeCard.classList.remove('active');
+                        }
+                    });
+
+                    // Toggle the active class on the clicked card
+                    card.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
