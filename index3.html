@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Story of Data Quality Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .step-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .details-panel {
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Assessing Data Quality in Practice</h1>
+            <p class="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">Follow a data analyst's story of transforming a raw, messy dataset into a reliable source for insight. Click each step to see the tools and techniques used.</p>
+        </header>
+
+        <!-- Storyline -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">The Case of the Inconsistent Customer Data</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Meet Elijah, a data analyst at a growing e-commerce company. The marketing team wants to launch a personalised campaign, but they're getting unreliable results from their customer data. Reports are conflicting, and nobody trusts the numbers. Elijah is tasked with assessing the quality of the customer dataset and cleaning it up. This is Elijah's journey—a step-by-step investigation to uncover the truth hidden in the data.
+            </p>
+        </div>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            
+            <!-- Steps Column -->
+            <div id="steps-container" class="lg:col-span-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+                <!-- Step cards will be injected here -->
+            </div>
+
+            <!-- Details Panel Column -->
+            <div class="lg:col-span-2 lg:sticky top-8">
+                <div id="details-panel" class="details-panel bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200 min-h-[300px]">
+                    <!-- Details will be injected here -->
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        const assessmentSteps = [
+            {
+                id: 1,
+                title: 'First Look: Exploratory Data Analysis',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>',
+                story: "Elijah's first move is to get a feel for the data. What's in it? How is it structured? Instead of just staring at rows of data, Elijah uses Exploratory Data Analysis (EDA) to get a high-level overview. It's like a detective's first walkthrough of a crime scene.",
+                techniques: [
+                    { name: 'Summary Statistics', desc: 'Calculates mean, median, min, max, and counts to understand the basic properties of each column.' },
+                    { name: 'Histograms', desc: 'Visualises the distribution of numerical data (like age or purchase amount) to spot skewness or gaps.' },
+                    { name: 'Boxplots', desc: 'Identifies the spread of data and potential outliers in one compact chart.' }
+                ]
+            },
+            {
+                id: 2,
+                title: 'Missing Value Viusualisation',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16l2.879-2.879a3 3 0 014.242 0L20 18M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>',
+                story: "The initial exploration reveals a problem: empty cells are everywhere. The 'last_login_date' column is half-empty, and 'region' is missing for many new customers. These aren't just blanks; they're holes in the story. Elijah needs to understand the pattern of this missingness.",
+                techniques: [
+                    { name: 'naniar::vis_miss()', desc: 'Creates a plot showing the entire dataset with missing cells highlighted, revealing patterns and correlations in missingness.' },
+                    { name: 'gg_miss_var()', desc: 'Generates a bar chart showing the number of missing values for each variable, quickly identifying the most problematic columns.' }
+                ]
+            },
+            {
+                id: 3,
+                title: 'Outlier Detection',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 10l.01.01" /></svg>',
+                story: "While plotting purchase amounts, Elijah notices some customers with impossibly high spending—like $1,000,000 for a pair of socks. Are these data entry errors or legitimate VIPs? These outliers could skew the analysis, so they must be investigated.",
+                techniques: [
+                    { name: 'Z-scores', desc: 'Measures how many standard deviations a data point is from the mean. A high z-score (e.g., > 3) indicates a potential outlier.' },
+                    { name: 'IQR Fences', desc: 'Uses the Interquartile Range (IQR) to define upper and lower bounds. Points outside these fences are flagged.' }
+                ]
+            },
+            {
+                id: 4,
+                title: 'Profiling Tools',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>',
+                story: "Manually checking every column is slow and prone to error. Elijah decides to use automated profiling tools to run a comprehensive diagnostic on the entire dataset at once. This is like getting a full medical report for the data's health.",
+                techniques: [
+                    { name: 'R package -> DataExplorer::create_report()', desc: 'Generates a complete HTML report with visualisations of distributions, missing values, and correlations for all variables.' },
+                    { name: 'R package -> skimr::skim()', desc: 'Provides a powerful and easy-to-read console summary of the data, including statistics and mini-histograms.' },
+                    { name: 'SQL CHECK Constraints', desc: 'Defines rules directly in the database (e.g., `age > 18`) to prevent bad data from being entered in the first place.' }
+                ]
+            }
+        ];
+
+        let activeStepId = 1;
+
+        const stepsContainer = document.getElementById('steps-container');
+        const detailsPanel = document.getElementById('details-panel');
+
+        function renderSteps() {
+            stepsContainer.innerHTML = '';
+            assessmentSteps.forEach(step => {
+                const isActive = step.id === activeStepId;
+                const activeClasses = isActive ? 'bg-indigo-600 text-white shadow-lg' : 'bg-white hover:bg-gray-100';
+                const stepCard = document.createElement('div');
+                stepCard.className = `step-card cursor-pointer p-4 rounded-xl border flex items-center space-x-4 ${activeClasses}`;
+                stepCard.dataset.id = step.id;
+
+                stepCard.innerHTML = `
+                    <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full ${isActive ? 'bg-white/20' : 'bg-indigo-100'} ${isActive ? 'text-white' : 'text-indigo-600'}">
+                        ${step.icon}
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-md">${step.title}</h3>
+                    </div>
+                `;
+                
+                stepCard.addEventListener('click', () => {
+                    activeStepId = step.id;
+                    render();
+                });
+
+                stepsContainer.appendChild(stepCard);
+            });
+        }
+
+        function renderDetails() {
+            const step = assessmentSteps.find(s => s.id === activeStepId);
+            if (!step) return;
+
+            let techniquesHtml = step.techniques.map(tech => `
+                <li class="mt-4">
+                    <p class="font-semibold text-indigo-800">${tech.name}</p>
+                    <p class="text-gray-600">${tech.desc}</p>
+                </li>
+            `).join('');
+
+            detailsPanel.innerHTML = `
+                <div class="fade-in">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">${step.title}</h2>
+                    <p class="text-gray-700 leading-relaxed mb-6">${step.story}</p>
+                    <div class="bg-indigo-50 p-4 rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-800">Key Techniques & Tools</h4>
+                        <ul class="mt-2 list-disc list-inside">
+                            ${techniquesHtml}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function render() {
+            renderSteps();
+            renderDetails();
+        }
+
+        document.addEventListener('DOMContentLoaded', render);
+
+    </script>
+</body>
+</html>
