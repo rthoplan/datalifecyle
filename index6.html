@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R + SQL Workflow Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .workflow-step {
+            transition: all 0.3s ease-in-out;
+        }
+        .details-content, .code-content {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        pre {
+            background-color: #1e293b; /* slate-800 */
+            color: #e2e8f0; /* slate-200 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+        code {
+            font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", monospace;
+        }
+    </style>
+</head>
+<body class="text-gray-800 p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">The R + SQL Workflow</h1>
+            <p class="mt-3 text-lg text-gray-600">Combining the power of SQL databases with R's statistical and visualization capabilities.</p>
+        </header>
+
+        <!-- Why Combine Them? -->
+        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">Why Combine R & SQL?</h2>
+            <p class="text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">
+                Push heavy joins and aggregations to a powerful database like MySQL for speed and governance. Then, pull the concise, pre-processed results into R for sophisticated statistical modelling and polished visuals.
+            </p>
+            <div class="mt-6 text-center bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+                <p class="font-semibold text-indigo-800 text-xl">"Aggregate in MySQL, analyse in R."</p>
+            </div>
+        </div>
+
+        <!-- Interactive Workflow Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <!-- Workflow Steps (Left) -->
+            <div id="workflow-steps" class="lg:col-span-1 flex flex-col gap-4 lg:sticky top-8">
+                <!-- Steps injected by JS -->
+            </div>
+
+            <!-- Details Panel (Right) -->
+            <div id="details-panel" class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-lg border border-gray-200 min-h-[400px]">
+                <!-- Details injected by JS -->
+            </div>
+        </div>
+        
+        <!-- Tool Highlights & Best Practices -->
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Tool Highlights</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-start"><strong class="font-semibold text-purple-700 w-28 flex-shrink-0">DBI + RMySQL:</strong> Securely connect R to MySQL databases.</li>
+                    <li class="flex items-start"><strong class="font-semibold text-purple-700 w-28 flex-shrink-0">dbplyr:</strong> Translate R's dplyr verbs into efficient SQL queries automatically.</li>
+                    <li class="flex items-start"><strong class="font-semibold text-purple-700 w-28 flex-shrink-0">ggplot2:</strong> Create publication-quality, layered graphics from your results.</li>
+                </ul>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Best Practices</h3>
+                <ul class="space-y-3 list-disc list-inside text-gray-700">
+                    <li><strong>Index columns</strong> used in filters (WHERE) or joins to dramatically speed up queries.</li>
+                    <li><strong>Keep credentials secure</strong> using `.Renviron` files or the `keyring` package. Never hardcode them in scripts.</li>
+                    <li><strong>Store SQL queries</strong> in separate `.sql` files alongside your R code for better organization and reproducibility.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const workflowData = [
+            {
+                id: 'connect',
+                title: '1. Connect',
+                description: 'Establish a secure connection from your R session to the MySQL database.',
+                guiCode: 'Log in via MySQL Workbench.',
+                rCode: `con <- DBI::dbConnect(
+    RMySQL::MySQL(), 
+    dbname = "course_db", 
+    host = "localhost", 
+    user = "analyst", 
+    password = "pwd"
+)`
+            },
+            {
+                id: 'filter',
+                title: '2. Filter & Aggregate in SQL',
+                description: 'Write a SQL query to perform the heavy lifting. Filter to the specific data you need and calculate summary statistics directly in the database.',
+                guiCode: null,
+                rCode: `SELECT 
+    ward, 
+    AVG(hr) AS avg_hr 
+FROM vitals 
+WHERE obs_time >= CURDATE() - INTERVAL 30 DAY 
+GROUP BY ward;`
+            },
+            {
+                id: 'collect',
+                title: '3. Collect in R',
+                description: 'Execute the SQL query from R and pull the aggregated results into an R data frame (a tibble). The `collect()` function is what actually runs the query and transfers the data.',
+                guiCode: null,
+                rCode: `vitals_summary <- tbl(con, 
+    sql("SELECT ward, AVG(hr) AS avg_hr FROM vitals WHERE obs_time >= CURDATE() - INTERVAL 30 DAY GROUP BY ward")
+) |> collect()`
+            },
+            {
+                id: 'model',
+                title: '4. Model & Visualise in R',
+                description: 'With a small, clean dataset now in R, you can use R’s powerful tools for statistical modeling and creating high-quality visualisations.',
+                guiCode: null,
+                rCode: `# Modeling
+lm(avg_hr ~ ward, data = vitals_summary)
+
+# Visualization
+ggplot(vitals_summary, aes(x = ward, y = avg_hr)) +
+    geom_col()`
+            }
+        ];
+
+        let activeStepId = 'connect';
+
+        const stepsContainer = document.getElementById('workflow-steps');
+        const detailsPanel = document.getElementById('details-panel');
+
+        function renderSteps() {
+            stepsContainer.innerHTML = '';
+            workflowData.forEach(step => {
+                const isActive = step.id === activeStepId;
+                const activeClasses = 'bg-indigo-600 text-white shadow-md';
+                const inactiveClasses = 'bg-white hover:bg-gray-100';
+
+                const button = document.createElement('button');
+                button.className = `workflow-step p-4 rounded-lg border text-left ${isActive ? activeClasses : inactiveClasses}`;
+                button.dataset.id = step.id;
+                button.innerHTML = `<h3 class="text-lg font-bold">${step.title}</h3><p class="text-sm ${isActive ? 'text-indigo-200' : 'text-gray-500'}">${step.description}</p>`;
+                
+                button.addEventListener('click', () => {
+                    activeStepId = step.id;
+                    render();
+                });
+
+                stepsContainer.appendChild(button);
+            });
+        }
+
+        function renderDetails() {
+            const step = workflowData.find(s => s.id === activeStepId);
+            if (!step) return;
+
+            let guiHtml = '';
+            if (step.guiCode) {
+                guiHtml = `
+                    <h4 class="text-md font-semibold text-gray-700 mt-4">GUI Example:</h4>
+                    <pre><code class="language-text">${step.guiCode}</code></pre>
+                `;
+            }
+            
+            let codeLanguage = step.id === 'filter' ? 'sql' : 'r';
+
+            detailsPanel.innerHTML = `
+                <div class="details-content">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">${step.title}</h2>
+                    <p class="text-gray-600 mb-4">${step.description}</p>
+                    <div class="code-content">
+                        <h4 class="text-md font-semibold text-gray-700">Code Example:</h4>
+                        <pre><code class="language-${codeLanguage}">${step.rCode}</code></pre>
+                        ${guiHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function render() {
+            renderSteps();
+            renderDetails();
+        }
+
+        document.addEventListener('DOMContentLoaded', render);
+    </script>
+
+</body>
+</html>
