@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Quick Tour of R</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .stage-btn {
+            transition: all 0.3s ease-in-out;
+        }
+        .details-content {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-gray-800 p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">A Quick Tour of R</h1>
+            <p class="mt-3 text-lg text-gray-600">An interactive guide to the R ecosystem.</p>
+        </header>
+
+        <!-- Download Section -->
+        <div class="bg-blue-50 border-2 border-blue-200 p-6 rounded-2xl shadow-md mb-12 text-center">
+            <h2 class="text-2xl font-bold text-blue-800 mb-2">Get Started Now</h2>
+            <p class="text-blue-700 mb-4">Visit the official download page to get the latest version of R for Windows.</p>
+            <a href="https://cloud.r-project.org/bin/windows/base/" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors shadow-lg transform hover:-translate-y-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 9.293a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+                Go to R Download Page
+            </a>
+        </div>
+
+
+        <!-- Top Section: What is R & Why Use R -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <!-- What is R? -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    What is R?
+                </h2>
+                <p class="text-gray-700 leading-relaxed">
+                    An <strong>open-source statistical programming language</strong> built for statistics, data wrangling, and graphics. Originating at the University of Auckland (1993) and now stewarded by the R Core Team, it has over <strong>20,000+ CRAN packages</strong> and strong community support.
+                </p>
+            </div>
+            <!-- Why use R? -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+                 <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    Why use R in this module?
+                </h2>
+                <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                    <li><strong>Rich statistical libraries</strong> for time-series, econometrics, and ML.</li>
+                    <li><strong>Clean and consistent Tidyverse syntax</strong> for both EDA and large-scale pipelines.</li>
+                    <li>Native plotting (<strong>ggplot2</strong>) for publication-quality visuals.</li>
+                    <li>Supports <strong>reproducible workflows</strong> with Quarto and Shiny.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Interactive Workflow Section -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center">A Typical R Workflow</h2>
+            
+            <!-- Stage Buttons -->
+            <div id="stage-buttons" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4 mb-6 bg-slate-100 p-2 rounded-xl">
+                <!-- Buttons injected by JS -->
+            </div>
+
+            <!-- Details Panel -->
+            <div id="details-panel" class="bg-slate-50 p-6 rounded-lg min-h-[150px]">
+                <!-- Details injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const workflowStages = [
+            {
+                id: 'import',
+                name: 'Import',
+                color: 'blue',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" /><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" /></svg>',
+                packages: 'readr::read_csv(), data.table::fread(), DBI',
+                why: 'Fast ingest of CSVs and database tables into tidy data frames.'
+            },
+            {
+                id: 'wrangle',
+                name: 'Wrangle',
+                color: 'purple',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z" /></svg>',
+                packages: 'dplyr, the pipe `%>%`, tidyr::pivot_*()',
+                why: 'Human-readable verbs (filter, mutate) for reproducible transforms.'
+            },
+            {
+                id: 'visualise',
+                name: 'Visualise',
+                color: 'teal',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" /><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" /></svg>',
+                packages: 'ggplot2, patchwork, basic plotly',
+                why: 'Grammar of Graphics for publication-quality and interactive charts.'
+            },
+            {
+                id: 'model',
+                name: 'Model',
+                color: 'orange',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-1.584 1.95a1.532 1.532 0 01-.947 2.287c-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 1.95 1.584a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.532 1.532 0 012.287-.947c1.372.836 2.942-.734 1.584-1.95a1.532 1.532 0 01.947-2.287c1.561-.379-1.561 2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-1.95-1.584A1.532 1.532 0 0111.49 3.17zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" /></svg>',
+                packages: 'base stats, caret, tidymodels, forecast, vars',
+                why: 'Unified syntax for regression, ML, and time-series.'
+            },
+            {
+                id: 'scale',
+                name: 'Scale',
+                color: 'red',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>',
+                packages: 'arrow, sparklyr, data.table',
+                why: 'Work with Parquet, Spark, and on-disk analytics without leaving RStudio.'
+            },
+            {
+                id: 'share',
+                name: 'Share',
+                color: 'green',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" /></svg>',
+                packages: 'Quarto / R Markdown, Shiny, renv',
+                why: 'Turn code into HTML/PDF reports, dashboards, & lock package versions.'
+            }
+        ];
+
+        let activeStageId = 'import';
+
+        const stageButtonsContainer = document.getElementById('stage-buttons');
+        const detailsPanel = document.getElementById('details-panel');
+
+        function renderButtons() {
+            stageButtonsContainer.innerHTML = '';
+            workflowStages.forEach(stage => {
+                const isActive = stage.id === activeStageId;
+                const activeClasses = `bg-${stage.color}-500 text-white shadow-md`;
+                const inactiveClasses = `bg-white text-gray-700 hover:bg-gray-200`;
+                
+                const button = document.createElement('button');
+                button.className = `stage-btn flex items-center justify-center text-sm sm:text-base font-semibold p-3 rounded-lg ${isActive ? activeClasses : inactiveClasses}`;
+                button.dataset.id = stage.id;
+                button.innerHTML = `${stage.icon} ${stage.name}`;
+
+                button.addEventListener('click', () => {
+                    activeStageId = stage.id;
+                    render();
+                });
+
+                stageButtonsContainer.appendChild(button);
+            });
+        }
+
+        function renderDetails() {
+            const stage = workflowStages.find(s => s.id === activeStageId);
+            if (!stage) return;
+
+            detailsPanel.innerHTML = `
+                <div class="details-content">
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Core Packages / Concepts</h4>
+                        <p class="mt-1 text-lg font-medium text-${stage.color}-700">${stage.packages}</p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-200">
+                        <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Why It Matters</h4>
+                        <p class="mt-1 text-gray-700">${stage.why}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function render() {
+            renderButtons();
+            renderDetails();
+        }
+
+        document.addEventListener('DOMContentLoaded', render);
+
+    </script>
+</body>
+</html>
