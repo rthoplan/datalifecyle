@@ -1,1 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Short Answer Grader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .feedback-card {
+            transition: all 0.3s ease-in-out;
+            transform-origin: top;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-2xl mx-auto p-4 sm:p-6 md:p-8">
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div class="p-6 md:p-8">
+                <header class="text-center mb-6">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Foundations of Data Handling Activity</h1>
+                    <p class="text-gray-600 mt-2">Answer the following questions based on Lecture 1.</p>
+                </header>
+
+                <!-- Quiz Area -->
+                <div id="quiz-area">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <h2 class="text-lg font-semibold text-gray-700">Question <span id="question-number">1</span> of <span id="total-questions"></span></h2>
+                            <span id="score" class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full">Score: 0</span>
+                        </div>
+                        <p id="question-text" class="text-gray-800 text-lg leading-relaxed bg-gray-100 p-4 rounded-lg"></p>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="student-answer" class="block text-sm font-medium text-gray-700 mb-2">Your Answer:</label>
+                        <textarea id="student-answer" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+                    </div>
+
+                    <button id="submit-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">
+                        Submit Answer
+                    </button>
+                </div>
+
+                <!-- Results Area -->
+                <div id="results-area" class="hidden text-center">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Activity Complete!</h2>
+                    <p class="text-lg text-gray-700 mb-2">Your Final Score:</p>
+                    <p id="final-score" class="text-5xl font-extrabold text-blue-600 mb-6"></p>
+                    <button id="restart-btn" class="w-full bg-gray-700 text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                        Try Again
+                    </button>
+                </div>
+
+            </div>
+            
+            <!-- Feedback Section -->
+            <div id="feedback-container" class="bg-gray-100 p-6 md:p-8 border-t border-gray-200 hidden">
+                 <div id="feedback-card" class="p-4 rounded-lg mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">AI Feedback</h3>
+                    <p id="feedback-score" class="font-bold mb-2"></p>
+                    <p id="feedback-text"></p>
+                 </div>
+                 <div id="model-answer-card" class="p-4 rounded-lg bg-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Model Answer</h3>
+                    <p id="model-answer-text" class="text-gray-700"></p>
+                 </div>
+                 <button id="next-btn" class="mt-6 w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 hidden">
+                    Next Question
+                </button>
+            </div>
+             <!-- Loading Indicator -->
+            <div id="loader" class="hidden p-6 text-center">
+                <div class="flex justify-center items-center">
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="text-gray-600">Evaluating your answer...</span>
+                </div>
+            </div>
+        </div>
+        <footer class="text-center mt-6 text-sm text-gray-500">
+            <p>Powered by AI. This is a tool for learning, not a formal assessment.</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- 1. QUIZ DATA AND STATE MANAGEMENT ---
+        // Questions and model answers are derived directly from the provided lecture PDF.
+        const quizData = [
+            {
+                question: "What are the first two stages of the Data Lifecycle mentioned in the lecture?",
+                modelAnswer: "The first stage is Generation, which involves the creation of data. The second stage is Collection, which is the gathering of raw data from various sources."
+            },
+            {
+                question: "List and briefly define two dimensions of data quality.",
+                modelAnswer: "The six dimensions of data quality are: Accuracy (values are correct), Completeness (no important fields are missing), Consistency (values agree across systems), Timeliness (data is up-to-date), Validity (data conforms to format/type/range), and Uniqueness (no duplicate records). The student should provide any two of these with a brief, correct definition."
+            },
+            {
+                question: "According to the lecture, what is the key difference between structured and unstructured data?",
+                modelAnswer: "Structured data has a predefined format and is highly organised, often in tables (like in a database). Unstructured data has no predefined format or organisation, like the text in an email or a social media post."
+            },
+            {
+                question: "What is the purpose of the 'Analysis' stage in the Data Lifecycle?",
+                modelAnswer: "Data analysis is where we apply different methods to draw meaningful insights from the data."
+            },
+            {
+                question: "What two complementary tools for data handling and analysis were highlighted in the lecture?",
+                modelAnswer: "The lecture highlighted R and SQL as a powerful and complementary tool-chain."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let totalScore = 0;
+
+        // --- 2. DOM ELEMENT REFERENCES ---
+        const questionNumberEl = document.getElementById('question-number');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const questionTextEl = document.getElementById('question-text');
+        const studentAnswerEl = document.getElementById('student-answer');
+        const submitBtn = document.getElementById('submit-btn');
+        const scoreEl = document.getElementById('score');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const feedbackCard = document.getElementById('feedback-card');
+        const feedbackScoreEl = document.getElementById('feedback-score');
+        const feedbackTextEl = document.getElementById('feedback-text');
+        const modelAnswerTextEl = document.getElementById('model-answer-text');
+        const nextBtn = document.getElementById('next-btn');
+        const loader = document.getElementById('loader');
+        const quizArea = document.getElementById('quiz-area');
+        const resultsArea = document.getElementById('results-area');
+        const finalScoreEl = document.getElementById('final-score');
+        const restartBtn = document.getElementById('restart-btn');
+
+        // --- 3. AI GRADING LOGIC (GEMINI API) ---
+        /**
+         * Calls the Gemini API to grade the student's answer.
+         * @param {string} question - The question asked.
+         * @param {string} studentAnswer - The student's submitted answer.
+         * @param {string} modelAnswer - The ideal answer from the lecture.
+         * @returns {Promise<Object|null>} A promise that resolves to an object with score and feedback, or null on error.
+         */
+        async function getAIGrading(question, studentAnswer, modelAnswer) {
+            // This is the prompt that instructs the AI on how to behave and what to do.
+            // It's engineered to request a specific JSON output for reliable parsing.
+            const prompt = `You are an expert Teaching Assistant for a 'Foundations of Data Handling' university course. Your task is to grade a student's short-answer response based on a model answer from the lecture.
+
+            **Instructions:**
+            1.  Compare the student's answer to the model answer.
+            2.  Score the student's answer on a scale of 0 to 2:
+                - **2 points:** The answer is fully correct and captures all key points of the model answer.
+                - **1 point:** The answer is partially correct, mentioning some key points but missing others, or contains minor inaccuracies.
+                - **0 points:** The answer is incorrect, irrelevant, or misses all key points.
+            3.  Provide a brief, constructive explanation for your score. Explain what is correct and what is missing or incorrect.
+
+            **Question:** "${question}"
+            **Model Answer:** "${modelAnswer}"
+            **Student's Answer:** "${studentAnswer}"
+
+            Please provide your evaluation in the specified JSON format.`;
+
+            // The payload for the Gemini API call.
+            // It includes the prompt and a schema for the expected JSON response.
+            const payload = {
+                contents: [{ role: "user", parts: [{ text: prompt }] }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            score: { type: "NUMBER" },
+                            feedback: { type: "STRING" }
+                        },
+                        required: ["score", "feedback"]
+                    }
+                }
+            };
+            
+            const apiKey = ""; // The API key will be provided by the environment.
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    
+                    const jsonText = result.candidates[0].content.parts[0].text;
+                    const parsedResult = JSON.parse(jsonText);
+                    // Ensure the score is an integer.
+                    parsedResult.score = Math.round(parsedResult.score);
+                    return parsedResult;
+
+                } else {
+                    console.error("Unexpected API response structure:", result);
+                    return { score: 0, feedback: "Sorry, there was an error processing the AI response. Please try again." };
+                }
+
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                return { score: 0, feedback: "Could not connect to the grading service. Please check your connection and try again." };
+            }
+        }
+
+        // --- 4. UI UPDATE AND CONTROL FLOW ---
+
+        /**
+         * Displays the current question to the user.
+         */
+        function displayQuestion() {
+            const currentQuestion = quizData[currentQuestionIndex];
+            questionNumberEl.textContent = currentQuestionIndex + 1;
+            totalQuestionsEl.textContent = quizData.length;
+            questionTextEl.textContent = currentQuestion.question;
+            studentAnswerEl.value = '';
+            feedbackContainer.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            submitBtn.disabled = false;
+            studentAnswerEl.disabled = false;
+        }
+
+        /**
+         * Handles the submission of an answer.
+         */
+        async function handleSubmit() {
+            const studentAnswer = studentAnswerEl.value.trim();
+            if (!studentAnswer) {
+                alert("Please provide an answer.");
+                return;
+            }
+
+            // Show loader and disable form
+            loader.classList.remove('hidden');
+            submitBtn.disabled = true;
+            studentAnswerEl.disabled = true;
+
+            const currentQuestion = quizData[currentQuestionIndex];
+            const result = await getAIGrading(currentQuestion.question, studentAnswer, currentQuestion.modelAnswer);
+            
+            // Hide loader
+            loader.classList.add('hidden');
+
+            if (result) {
+                updateFeedbackUI(result.score, result.feedback, currentQuestion.modelAnswer);
+                totalScore += result.score;
+                scoreEl.textContent = `Score: ${totalScore}`;
+            }
+        }
+
+        /**
+         * Updates the feedback UI with the AI's response.
+         * @param {number} score - The score (0, 1, or 2).
+         * @param {string} feedback - The textual feedback.
+         * @param {string} modelAnswer - The correct answer for the question.
+         */
+        function updateFeedbackUI(score, feedback, modelAnswer) {
+            feedbackScoreEl.textContent = `Score for this question: ${score}/2`;
+            feedbackTextEl.textContent = feedback;
+            modelAnswerTextEl.textContent = modelAnswer;
+
+            // Reset classes
+            feedbackCard.classList.remove('bg-green-100', 'text-green-900', 'bg-yellow-100', 'text-yellow-900', 'bg-red-100', 'text-red-900');
+
+            if (score === 2) { // Perfect score
+                feedbackCard.classList.add('bg-green-100', 'text-green-900');
+            } else if (score === 1) { // Any partial credit
+                feedbackCard.classList.add('bg-yellow-100', 'text-yellow-900');
+            } else { // No credit
+                feedbackCard.classList.add('bg-red-100', 'text-red-900');
+            }
+
+            feedbackContainer.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+        }
+        
+        /**
+         * Moves to the next question or ends the quiz.
+         */
+        function handleNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                displayQuestion();
+            } else {
+                showFinalResults();
+            }
+        }
+
+        /**
+         * Displays the final score and results screen.
+         */
+        function showFinalResults() {
+            const maxScore = quizData.length * 2;
+            quizArea.classList.add('hidden');
+            feedbackContainer.classList.add('hidden');
+            resultsArea.classList.remove('hidden');
+            finalScoreEl.textContent = `${totalScore} / ${maxScore}`;
+        }
+        
+        /**
+         * Resets the quiz to the beginning.
+         */
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            totalScore = 0;
+            scoreEl.textContent = `Score: 0`;
+            resultsArea.classList.add('hidden');
+            quizArea.classList.remove('hidden');
+            displayQuestion();
+        }
+
+        // --- 5. EVENT LISTENERS ---
+        submitBtn.addEventListener('click', handleSubmit);
+        nextBtn.addEventListener('click', handleNextQuestion);
+        restartBtn.addEventListener('click', restartQuiz);
+
+        // --- 6. INITIALIZE QUIZ ---
+        window.onload = () => {
+            displayQuestion();
+        };
+
+    </script>
+</body>
+</html>
 
