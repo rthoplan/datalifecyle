@@ -183,15 +183,19 @@
                 }
             };
             
-            const apiKey = ""; // The API key will be provided by the environment.
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            const apiUrl = "https://ai-short-answer-backend-production.up.railway.app/api/grade";
             
             try {
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({
+                        question,
+                        studentAnswer,
+                        modelAnswer
+                    })
                 });
+
 
                 if (!response.ok) {
                     throw new Error(`API request failed with status ${response.status}`);
