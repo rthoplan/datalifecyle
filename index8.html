@@ -203,20 +203,16 @@
 
                 const result = await response.json();
                 
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    
-                    const jsonText = result.candidates[0].content.parts[0].text;
-                    const parsedResult = JSON.parse(jsonText);
-                    // Ensure the score is an integer.
-                    parsedResult.score = Math.round(parsedResult.score);
-                    return parsedResult;
-
+                if (typeof result.score === "number" && typeof result.feedback === "string") {
+                    return {
+                        score: Math.round(result.score),
+                        feedback: result.feedback
+                    };
                 } else {
-                    console.error("Unexpected API response structure:", result);
-                    return { score: 0, feedback: "Sorry, there was an error processing the AI response. Please try again." };
+                    console.error("Unexpected backend response structure:", result);
+                    return { score: 0, feedback: "Unexpected grading response. Please try again." };
                 }
+
 
             } catch (error) {
                 console.error("Error calling Gemini API:", error);
