@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Data Format Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Syntax highlighting styles */
+        .code-block {
+            background-color: #1e1e1e; /* A common dark editor background */
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+        }
+        .json-key { color: #9cdcfe; }
+        .json-string { color: #ce9178; }
+        .json-number { color: #b5cea8; }
+        .json-boolean { color: #569cd6; }
+        .json-comment { color: #6a9955; }
+        .xml-tag { color: #569cd6; }
+        .xml-attr-name { color: #9cdcfe; }
+        .xml-attr-value { color: #ce9178; }
+        .xml-content { color: #d4d4d4; }
+        
+        /* Main tab styles */
+        .tab-btn.active {
+            background-color: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        
+        /* Sub-tab styles */
+        .sub-tab-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 0.375rem 0.375rem 0 0;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            color: #6b7280;
+        }
+        .dark .sub-tab-btn {
+            color: #9ca3af;
+        }
+        .sub-tab-btn:hover {
+            background-color: #e5e7eb;
+        }
+        .dark .sub-tab-btn:hover {
+            background-color: #374151;
+        }
+        .sub-tab-btn.active {
+            background-color: #fff;
+            color: #4f46e5;
+            border-color: #d1d5db;
+            border-bottom: 1px solid white;
+            transform: translateY(1px);
+        }
+        .dark .sub-tab-btn.active {
+            background-color: #1f2937;
+            color: #818cf8;
+            border-color: #4b5563;
+            border-bottom: 1px solid #1f2937;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
+        <div class="p-6 md:p-8">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Data Format Explorer</h1>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">Click the tabs to see an example of each data type.</p>
+
+            <!-- Main Tab Navigation -->
+            <div class="flex space-x-2 border-b border-gray-200 dark:border-gray-700 mb-6">
+                <button id="structured-btn" class="tab-btn py-3 px-4 font-semibold text-gray-600 dark:text-gray-300 rounded-t-lg transition-all duration-300 hover:bg-gray-200 dark:hover:bg-gray-700">📊 Structured</button>
+                <button id="semi-structured-btn" class="tab-btn py-3 px-4 font-semibold text-gray-600 dark:text-gray-300 rounded-t-lg transition-all duration-300 hover:bg-gray-200 dark:hover:bg-gray-700">🏷️ Semi-structured</button>
+                <button id="unstructured-btn" class="tab-btn py-3 px-4 font-semibold text-gray-600 dark:text-gray-300 rounded-t-lg transition-all duration-300 hover:bg-gray-200 dark:hover:bg-gray-700">📄 Unstructured</button>
+            </div>
+
+            <!-- Content Panes -->
+            <div id="content-panes">
+                <!-- Structured Data Pane -->
+                <div id="structured-content" class="data-content space-y-4">
+                    <h2 class="text-xl font-semibold text-indigo-600 dark:text-indigo-400">Key Characteristic: Fixed Rows & Columns</h2>
+                    <p>This data is organized in a fixed format, much like a traditional spreadsheet. It's rigid, predictable, and easy to query using standard tools.</p>
+                    <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2">Example: Student Information System</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-gray-200 dark:bg-gray-600">
+                                    <tr>
+                                        <th class="p-3 font-semibold">StudentID</th>
+                                        <th class="p-3 font-semibold">FirstName</th>
+                                        <th class="p-3 font-semibold">LastName</th>
+                                        <th class="p-3 font-semibold">Major</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-gray-200 dark:border-gray-600">
+                                        <td class="p-3">101</td>
+                                        <td class="p-3">Aisha</td>
+                                        <td class="p-3">Khan</td>
+                                        <td class="p-3">Computer Science</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200 dark:border-gray-600">
+                                        <td class="p-3">102</td>
+                                        <td class="p-3">Ben</td>
+                                        <td class="p-3">Carter</td>
+                                        <td class="p-3">Biology</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3">103</td>
+                                        <td class="p-3">Carla</td>
+                                        <td class="p-3">Diaz</td>
+                                        <td class="p-3">History</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Typical File Types:</span> CSV, XLSX</div>
+                </div>
+
+                <!-- Semi-structured Data Pane -->
+                <div id="semi-structured-content" class="data-content hidden space-y-4">
+                    <h2 class="text-xl font-semibold text-teal-600 dark:text-teal-400">Key Characteristic: Labeled Fields</h2>
+                    <p>This data isn't confined to a rigid table, but it contains tags or keys that identify individual pieces of data. This makes it flexible and self-describing.</p>
+                    <div class="flex space-x-1 border-b border-gray-200 dark:border-gray-700">
+                        <button id="json-sub-btn" class="sub-tab-btn">JSON</button>
+                        <button id="xml-sub-btn" class="sub-tab-btn">XML</button>
+                        <button id="parquet-sub-btn" class="sub-tab-btn">Parquet</button>
+                        <button id="avro-sub-btn" class="sub-tab-btn">Avro</button>
+                    </div>
+                    <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-b-lg rounded-r-lg">
+                        <div id="json-sub-content" class="sub-data-content space-y-2">
+                             <h3 class="font-semibold text-gray-800 dark:text-gray-200">Example: API Payload (JSON)</h3>
+                             <p class="text-sm text-gray-600 dark:text-gray-400">Human-readable format common for web APIs and configuration files. Uses key-value pairs.</p>
+                             <pre class="code-block"><code>{
+  <span class="json-key">"orderID"</span>: <span class="json-string">"A9S8D7F6"</span>,
+  <span class="json-key">"customer"</span>: { ... },
+  <span class="json-key">"items"</span>: [ ... ],
+  <span class="json-key">"dispatched"</span>: <span class="json-boolean">true</span>
+}</code></pre>
+                        </div>
+                        <div id="xml-sub-content" class="sub-data-content hidden space-y-2">
+                            <h3 class="font-semibold text-gray-800 dark:text-gray-200">Example: Document Markup (XML)</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">A markup language with a tree-like structure. More verbose than JSON but highly extensible.</p>
+                            <pre class="code-block"><code><span class="xml-tag">&lt;order</span> <span class="xml-attr-name">id</span>=<span class="xml-attr-value">"A9S8D7F6"</span><span class="xml-tag">&gt;</span>
+  <span class="xml-tag">&lt;customer&gt;</span>
+    <span class="xml-tag">&lt;name&gt;</span><span class="xml-content">John Doe</span><span class="xml-tag">&lt;/name&gt;</span>
+    <span class="xml-tag">&lt;email&gt;</span><span class="xml-content">john.doe@email.com</span><span class="xml-tag">&lt;/email&gt;</span>
+  <span class="xml-tag">&lt;/customer&gt;</span>
+  <span class="xml-tag">&lt;items&gt;</span>
+    <span class="xml-tag">&lt;item</span> <span class="xml-attr-name">productID</span>=<span class="xml-attr-value">"P123"</span> <span class="xml-attr-name">quantity</span>=<span class="xml-attr-value">"1"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;item</span> <span class="xml-attr-name">productID</span>=<span class="xml-attr-value">"K456"</span> <span class="xml-attr-name">quantity</span>=<span class="xml-attr-value">"1"</span><span class="xml-tag">/&gt;</span>
+  <span class="xml-tag">&lt;/items&gt;</span>
+<span class="xml-tag">&lt;/order&gt;</span></code></pre>
+                        </div>
+                        <div id="parquet-sub-content" class="sub-data-content hidden space-y-2">
+                             <h3 class="font-semibold text-gray-800 dark:text-gray-200">Concept: Columnar Storage (Parquet)</h3>
+                             <p class="text-sm text-gray-600 dark:text-gray-400">A binary file format optimized for analytics. It stores data in columns, not rows, making queries on specific columns extremely fast because you don't have to read the whole row.</p>
+                             <pre class="code-block"><code><span class="json-comment">// This is a conceptual representation. The actual file is binary.</span>
+<span class="json-key">--- Column: productID ---</span>
+"P123"
+"K456"
+
+<span class="json-key">--- Column: name ---</span>
+"Wireless Mouse"
+"Mechanical Keyboard"
+
+<span class="json-key">--- Column: quantity ---</span>
+1
+1</code></pre>
+                        </div>
+                        <div id="avro-sub-content" class="sub-data-content hidden space-y-2">
+                            <h3 class="font-semibold text-gray-800 dark:text-gray-200">Concept: Schema-based Binary (Avro)</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">A binary, row-based format that embeds a JSON schema in the file itself. This is great for data streams and handling schema evolution (e.g., adding a new field).</p>
+                            <pre class="code-block"><code><span class="json-comment">// 1. The Schema (defined in JSON)</span>
+{
+  <span class="json-key">"type"</span>: <span class="json-string">"record"</span>,
+  <span class="json-key">"name"</span>: <span class="json-string">"Item"</span>,
+  <span class="json-key">"fields"</span>: [
+    { <span class="json-key">"name"</span>: <span class="json-string">"productID"</span>, <span class="json-key">"type"</span>: <span class="json-string">"string"</span> },
+    { <span class="json-key">"name"</span>: <span class="json-string">"name"</span>, <span class="json-key">"type"</span>: <span class="json-string">"string"</span> },
+    { <span class="json-key">"name"</span>: <span class="json-string">"quantity"</span>, <span class="json-key">"type"</span>: <span class="json-string">"int"</span> }
+  ]
+}
+
+<span class="json-comment">// 2. The Data (stored in a compact binary format, not human-readable)</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unstructured Data Pane -->
+                <div id="unstructured-content" class="data-content hidden space-y-4">
+                    <h2 class="text-xl font-semibold text-amber-600 dark:text-amber-400">Key Characteristic: No Predefined Schema</h2>
+                    <p>This data has no predefined model or organization. It's free-form and can be text, media, or other binary data that doesn't fit into a neat structure.</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Example 1: Scanned Document (TXT)</h3>
+                            <pre class="text-sm whitespace-pre-wrap font-sans">Meeting Notes - August 6, 2025
+
+Great discussion today about the Q4 marketing campaign.
+Key takeaways:
+- Finalize budget by Friday.
+- Sarah to mock up new ad creatives.
+- Focus on social media engagement.</pre>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg flex flex-col">
+                            <h3 class="font-semibold mb-2">Example 2: Social Media Image (JPEG)</h3>
+                             <div class="flex-grow bg-gray-200 dark:bg-gray-600 rounded-md flex items-center justify-center">
+                                <img src="https://placehold.co/400x300/e2e8f0/4a5568?text=Image+File" alt="Placeholder for a social media image" class="rounded-md object-cover w-full h-full">
+                            </div>
+                            <p class="text-xs mt-2 text-gray-500 dark:text-gray-400">An image file is a collection of pixels without an explicit, organized schema.</p>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Typical File Types:</span> JPEG, MP4, TXT, PDF</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Main Tab Logic ---
+        const mainTabButtons = document.querySelectorAll('.tab-btn');
+        const mainContentPanes = document.querySelectorAll('.data-content');
+        
+        const structuredBtn = document.getElementById('structured-btn');
+        const semiStructuredBtn = document.getElementById('semi-structured-btn');
+        const unstructuredBtn = document.getElementById('unstructured-btn');
+
+        const structuredContent = document.getElementById('structured-content');
+        const semiStructuredContent = document.getElementById('semi-structured-content');
+        const unstructuredContent = document.getElementById('unstructured-content');
+
+        function switchMainTab(activeBtn, activeContent) {
+            mainTabButtons.forEach(btn => btn.classList.remove('active'));
+            mainContentPanes.forEach(pane => pane.classList.add('hidden'));
+            activeBtn.classList.add('active');
+            activeContent.classList.remove('hidden');
+        }
+
+        structuredBtn.addEventListener('click', () => switchMainTab(structuredBtn, structuredContent));
+        semiStructuredBtn.addEventListener('click', () => {
+            switchMainTab(semiStructuredBtn, semiStructuredContent);
+            // Also trigger the default sub-tab if it's not already active
+            if (!document.querySelector('.sub-tab-btn.active')) {
+                 switchSubTab(jsonSubBtn, jsonSubContent);
+            }
+        });
+        unstructuredBtn.addEventListener('click', () => switchMainTab(unstructuredBtn, unstructuredContent));
+
+        // --- Sub-Tab Logic for Semi-Structured Pane ---
+        const subTabButtons = document.querySelectorAll('.sub-tab-btn');
+        const subContentPanes = document.querySelectorAll('.sub-data-content');
+
+        const jsonSubBtn = document.getElementById('json-sub-btn');
+        const xmlSubBtn = document.getElementById('xml-sub-btn');
+        const parquetSubBtn = document.getElementById('parquet-sub-btn');
+        const avroSubBtn = document.getElementById('avro-sub-btn');
+        
+        const jsonSubContent = document.getElementById('json-sub-content');
+        const xmlSubContent = document.getElementById('xml-sub-content');
+        const parquetSubContent = document.getElementById('parquet-sub-content');
+        const avroSubContent = document.getElementById('avro-sub-content');
+
+        function switchSubTab(activeBtn, activeContent) {
+            subTabButtons.forEach(btn => btn.classList.remove('active'));
+            subContentPanes.forEach(pane => pane.classList.add('hidden'));
+            activeBtn.classList.add('active');
+            activeContent.classList.remove('hidden');
+        }
+
+        jsonSubBtn.addEventListener('click', () => switchSubTab(jsonSubBtn, jsonSubContent));
+        xmlSubBtn.addEventListener('click', () => switchSubTab(xmlSubBtn, xmlSubContent));
+        parquetSubBtn.addEventListener('click', () => switchSubTab(parquetSubBtn, parquetSubContent));
+        avroSubBtn.addEventListener('click', () => switchSubTab(avroSubBtn, avroSubContent));
+
+        // --- Initial State ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Default to the main 'Structured' tab
+            switchMainTab(structuredBtn, structuredContent);
+            // Pre-set the active sub-tab for when its pane is shown
+            switchSubTab(jsonSubBtn, jsonSubContent);
+        });
+    </script>
+
+</body>
+</html>
