@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Overview of Data Archival & Destruction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals with Indigo Accent -->
+    <!-- Application Structure Plan: A single-page, vertical scrolling layout with a sticky top navigation, mirroring the successful structure of the previous app. The two concepts, Amazon S3 Glacier and Cryptographic Erase, are presented in distinct, full-width sections. This structure is ideal for presenting related but separate topics, allowing for focused learning on each. The interactive examples are designed to visually demonstrate the core value proposition of each concept: the time/cost trade-off for archival and the process of irreversible data destruction. -->
+    <!-- Visualization & Content Choices: 
+        - Amazon S3 Glacier: Report Info -> Data archival with different retrieval speeds. Goal -> Inform/Show Process. Viz -> Interactive HTML/CSS diagram. Interaction -> User selects a retrieval speed, which triggers a timed animation demonstrating the retrieval delay. Justification -> This makes the abstract concept of retrieval time tangible and memorable, clearly illustrating the service's primary trade-off. Method -> JS + Tailwind CSS.
+        - Cryptographic Erase: Report Info -> Data destruction by key elimination. Goal -> Inform/Demonstrate Security. Viz -> Interactive HTML/CSS diagram showing data, an encryption key, and their states. Interaction -> Buttons to "Encrypt" data and then "Cryptographically Erase" by destroying the key. Justification -> This visual metaphor of locking a box and then destroying the key is a powerful and universally understood way to explain a complex cryptographic process. Method -> JS + Tailwind CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .progress-bar-container {
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            overflow: hidden;
+            height: 1.5rem;
+        }
+        .progress-bar {
+            background-color: #4f46e5;
+            height: 100%;
+            width: 0%;
+            transition: width 1s ease-in-out;
+            border-radius: 9999px;
+        }
+        .crypto-key {
+            transition: all 0.5s ease-in-out;
+        }
+        .crypto-key.destroyed {
+            transform: scale(0) rotate(180deg);
+            opacity: 0;
+        }
+        .crypto-data {
+            transition: all 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-slate-900">
+                Data Archival & Destruction
+            </h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#glacier" class="text-slate-600 hover:text-indigo-600 transition-colors">S3 Glacier</a>
+                <a href="#crypto-erase" class="text-slate-600 hover:text-indigo-600 transition-colors">Cryptographic Erase</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 md:py-16">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Securing the Data Lifecycle</h2>
+            <p class="text-slate-600 text-lg">
+                From long-term storage to permanent deletion, managing data securely is critical. Explore two key concepts for data archival and destruction and see how they work in practice.
+            </p>
+        </div>
+
+        <div id="glacier" class="scroll-mt-24 bg-white p-8 rounded-2xl shadow-lg mb-16">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-3xl font-bold text-slate-900 mb-4">🧊 Amazon S3 Glacier</h3>
+                    <p class="text-slate-600 mb-6">
+                        Amazon S3 Glacier is a secure, durable, and extremely low-cost cloud storage service for data archival and long-term backup. It's designed for data that is accessed infrequently, as retrieval times can range from minutes to hours. This makes it ideal for retaining data for years to meet regulatory compliance or for preserving valuable assets that are not needed for day-to-day operations.
+                    </p>
+                    <div class="space-y-3 text-slate-700">
+                        <p class="flex items-start"><span class="text-indigo-500 mr-3 mt-1">●</span><div><strong>Low Cost:</strong> Significantly cheaper than standard cloud storage for "cold" data.</div></p>
+                        <p class="flex items-start"><span class="text-indigo-500 mr-3 mt-1">●</span><div><strong>Durable:</strong> Designed for 99.999999999% (11 nines) of durability of objects.</div></p>
+                        <p class="flex items-start"><span class="text-indigo-500 mr-3 mt-1">●</span><div><strong>Flexible Retrievals:</strong> Offers different retrieval options that balance cost and speed.</div></p>
+                    </div>
+                </div>
+                <div class="bg-slate-100 p-6 rounded-xl">
+                    <h4 class="font-semibold text-lg text-center mb-1 text-slate-800">Real-World Example</h4>
+                    <p class="text-sm text-center text-slate-500 mb-6">A financial firm needs to retrieve an archived transaction record from 7 years ago for an audit.</p>
+                    <div class="space-y-4">
+                        <div class="text-center">
+                            <span class="text-5xl">🗄️</span>
+                            <p class="font-semibold mt-2">Archived Data</p>
+                        </div>
+                        <div class="pt-4">
+                            <label class="font-semibold text-slate-700">Choose a retrieval speed:</label>
+                            <select id="retrieval-speed" class="w-full mt-1 p-2 border border-slate-300 rounded-md">
+                                <option value="1">Expedited (1-5 minutes)</option>
+                                <option value="4">Standard (3-5 hours)</option>
+                                <option value="8">Bulk (5-12 hours)</option>
+                            </select>
+                        </div>
+                        <button id="retrieve-btn" class="w-full mt-2 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">
+                            Initiate Retrieval
+                        </button>
+                        <div class="pt-4">
+                            <div class="progress-bar-container">
+                                <div id="progress-bar" class="progress-bar"></div>
+                            </div>
+                            <p id="retrieval-status" class="text-center text-sm text-slate-600 mt-2 h-5"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="crypto-erase" class="scroll-mt-24 bg-white p-8 rounded-2xl shadow-lg">
+             <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-3xl font-bold text-slate-900 mb-4">🔑 Cryptographic Erase</h3>
+                    <p class="text-slate-600 mb-6">
+                        Cryptographic Erase (or crypto-shredding) is a method of data destruction that makes target data irrecoverable by destroying the cryptographic keys used to encrypt it. Instead of physically overwriting or destroying the storage media, you simply eliminate the key. Without the key, the encrypted data is rendered permanently unintelligible, effectively deleting it.
+                    </p>
+                    <div class="space-y-3 text-slate-700">
+                        <p class="flex items-start"><span class="text-indigo-500 mr-3 mt-1">●</span><div><strong>Fast & Efficient:</strong> Destroying a small key is much faster than overwriting terabytes of data.</div></p>
+                        <p class="flex items-start"><span class="text-indigo-500 mr-3 mt-1">●</span><div><strong>Secure:</strong> Renders data useless on lost or stolen devices, or when decommissioning hardware.</div></p>
+                        <p class="flex items-start"><span class="text-indigo-500 mr-3 mt-1">●</span><div><strong>Media Agnostic:</strong> Works on all types of storage, including SSDs where physical overwriting is complex.</div></p>
+                    </div>
+                </div>
+                <div class="bg-slate-100 p-6 rounded-xl">
+                    <h4 class="font-semibold text-lg text-center mb-1 text-slate-800">How It Works</h4>
+                    <p class="text-sm text-center text-slate-500 mb-6">Follow the steps to secure and then destroy data.</p>
+                    <div class="flex flex-col items-center space-y-6">
+                        <div id="crypto-data-container" class="text-center">
+                            <p class="font-semibold text-slate-700 mb-2">State of Data</p>
+                            <div id="crypto-data" class="crypto-data bg-white p-4 rounded-lg shadow-sm w-64 h-24 flex items-center justify-center font-mono text-slate-800">Hello, World!</div>
+                        </div>
+
+                        <div id="crypto-key-container" class="text-center">
+                             <p class="font-semibold text-slate-700 mb-2">Encryption Key</p>
+                             <div id="crypto-key" class="crypto-key text-5xl text-indigo-500">🔑</div>
+                        </div>
+                        
+                        <div id="crypto-buttons" class="w-full space-y-2">
+                            <button id="encrypt-btn" class="w-full bg-slate-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-700 transition-colors">1. Encrypt Data</button>
+                            <button id="erase-btn" class="w-full bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors opacity-50 cursor-not-allowed" disabled>2. Cryptographically Erase</button>
+                        </div>
+                         <p id="crypto-status" class="text-center text-sm text-slate-600 mt-2 h-5 font-semibold"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // Glacier Retrieval Logic
+            const retrieveBtn = document.getElementById('retrieve-btn');
+            const progressBar = document.getElementById('progress-bar');
+            const retrievalStatus = document.getElementById('retrieval-status');
+            const retrievalSpeedSelect = document.getElementById('retrieval-speed');
+            let isRetrieving = false;
+
+            retrieveBtn.addEventListener('click', () => {
+                if (isRetrieving) return;
+                isRetrieving = true;
+                
+                const speed = parseFloat(retrievalSpeedSelect.value);
+                const duration = speed * 1000; // a scaled-down simulation time in ms
+
+                retrieveBtn.disabled = true;
+                retrieveBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                retrievalStatus.textContent = 'Retrieval initiated...';
+                progressBar.style.transition = `width ${duration / 1000}s linear`;
+                progressBar.style.width = '100%';
+
+                setTimeout(() => {
+                    retrievalStatus.textContent = 'Data retrieved successfully!';
+                    retrieveBtn.disabled = false;
+                    retrieveBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    isRetrieving = false;
+                    setTimeout(() => {
+                        progressBar.style.transition = 'width 0.5s ease-in-out';
+                        progressBar.style.width = '0%';
+                        retrievalStatus.textContent = '';
+                    }, 3000);
+                }, duration);
+            });
+
+            // Cryptographic Erase Logic
+            const encryptBtn = document.getElementById('encrypt-btn');
+            const eraseBtn = document.getElementById('erase-btn');
+            const cryptoData = document.getElementById('crypto-data');
+            const cryptoKey = document.getElementById('crypto-key');
+            const cryptoStatus = document.getElementById('crypto-status');
+            let isEncrypted = false;
+
+            encryptBtn.addEventListener('click', () => {
+                if (isEncrypted) return;
+                isEncrypted = true;
+                
+                cryptoData.textContent = 'a#$fG!8kL@pZ*qW';
+                cryptoData.classList.remove('text-slate-800');
+                cryptoData.classList.add('text-green-600', 'break-all');
+                cryptoStatus.textContent = 'Data is now encrypted.';
+                cryptoStatus.classList.add('text-green-700');
+                
+                eraseBtn.disabled = false;
+                eraseBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                encryptBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                encryptBtn.disabled = true;
+            });
+
+            eraseBtn.addEventListener('click', () => {
+                if (!isEncrypted) return;
+
+                cryptoKey.classList.add('destroyed');
+                cryptoStatus.textContent = 'Key destroyed. Data is permanently irrecoverable.';
+                cryptoStatus.classList.remove('text-green-700');
+                cryptoStatus.classList.add('text-red-700');
+                cryptoData.classList.remove('text-green-600');
+                cryptoData.classList.add('text-red-600');
+                
+                eraseBtn.disabled = true;
+                eraseBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            });
+        });
+    </script>
+
+</body>
+</html>
