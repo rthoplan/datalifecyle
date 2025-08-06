@@ -17,26 +17,6 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        .step-connector {
-            position: absolute;
-            top: 50%;
-            left: 100%;
-            transform: translateY(-50%);
-            width: 2rem; /* 32px */
-            height: 2px;
-            background-color: #d1d5db; /* gray-300 */
-        }
-        .step-connector-arrow {
-            position: absolute;
-            top: 50%;
-            right: -8px;
-            transform: translateY(-50%);
-            width: 0;
-            height: 0;
-            border-top: 6px solid transparent;
-            border-bottom: 6px solid transparent;
-            border-left: 8px solid #d1d5db; /* gray-300 */
-        }
         .details-card {
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
@@ -64,9 +44,9 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
                 Healthcare
             </button>
-            <button id="btn-finance" class="sector-btn w-full sm:w-auto px-6 py-3 text-base font-semibold rounded-lg transition-all duration-300">
+            <button id="btn-ecommerce" class="sector-btn w-full sm:w-auto px-6 py-3 text-base font-semibold rounded-lg transition-all duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                Finance
+                E-commerce
             </button>
         </div>
 
@@ -110,23 +90,23 @@
                     { stage: 8, name: 'Archival / Destruction', example: '7-year archive', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>' }
                 ]
             },
-            finance: {
+            ecommerce: { // Changed from 'finance'
                 theme: {
-                    primary: 'bg-yellow-500',
-                    secondary: 'bg-yellow-100',
-                    text: 'text-yellow-800',
-                    border: 'border-yellow-500',
-                    shadow: 'shadow-yellow-200'
+                    primary: 'bg-green-600',
+                    secondary: 'bg-green-100',
+                    text: 'text-green-800',
+                    border: 'border-green-600',
+                    shadow: 'shadow-green-200'
                 },
-                steps: [
-                    { stage: 1, name: 'Generation', example: 'Card swipe event', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>' },
-                    { stage: 2, name: 'Collection', example: 'Batch load', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>' },
-                    { stage: 3, name: 'Processing', example: 'Fraud-screening ETL', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3M5.636 5.636l-1.414-1.414m15.556 0l-1.414 1.414m-14.142 14.142l1.414 1.414m14.142 0l1.414-1.414M12 12l6-6m-6 6l-6 6" /></svg>' },
-                    { stage: 4, name: 'Storage', example: 'Online Transaction Processing store', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M4 7s0 0 0 0M12 15v6M12 3v6" /></svg>' },
-                    { stage: 5, name: 'Management', example: 'SOX-compliant controls', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>' },
-                    { stage: 6, name: 'Analysis', example: 'Risk models', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>' },
-                    { stage: 7, name: 'Visualisation', example: 'Executive BI dashboards', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" /></svg>' },
-                    { stage: 8, name: 'Archival / Destruction', example: '10-year retention', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>' }
+                steps: [ // Simplified examples
+                    { stage: 1, name: 'Generation', example: 'Customer makes an online purchase', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>' },
+                    { stage: 2, name: 'Collection', example: 'Order details saved to server', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>' },
+                    { stage: 3, name: 'Processing', example: 'Verify payment and check stock', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3M5.636 5.636l-1.414-1.414m15.556 0l-1.414 1.414m-14.142 14.142l1.414 1.414m14.142 0l1.414-1.414M12 12l6-6m-6 6l-6 6" /></svg>' },
+                    { stage: 4, name: 'Storage', example: 'Customer order database', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M4 7s0 0 0 0M12 15v6M12 3v6" /></svg>' },
+                    { stage: 5, name: 'Management', example: 'Securing customer payment info', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>' },
+                    { stage: 6, name: 'Analysis', example: 'Identifying popular products', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>' },
+                    { stage: 7, name: 'Visualisation', example: 'Weekly sales charts', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" /></svg>' },
+                    { stage: 8, name: 'Archival / Destruction', example: 'Archive old orders after 5 years', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>' }
                 ]
             }
         };
@@ -137,7 +117,7 @@
 
         // --- DOM ELEMENTS ---
         const healthcareBtn = document.getElementById('btn-healthcare');
-        const financeBtn = document.getElementById('btn-finance');
+        const ecommerceBtn = document.getElementById('btn-ecommerce'); // Changed from financeBtn
         const lifecycleContainer = document.getElementById('lifecycle-container');
         const detailsCard = document.getElementById('details-card');
 
@@ -207,12 +187,14 @@
          * Updates the UI for the selected sector toggle button.
          */
         function updateToggleButtons() {
-            const sector = lifecycleData[currentSector];
+            const healthcareTheme = lifecycleData.healthcare.theme;
+            const ecommerceTheme = lifecycleData.ecommerce.theme;
+
             if (currentSector === 'healthcare') {
-                healthcareBtn.className = `sector-btn w-full sm:w-auto px-6 py-3 text-base font-semibold rounded-lg transition-all duration-300 ${sector.theme.primary} text-white shadow-md`;
-                financeBtn.className = 'sector-btn w-full sm:w-auto px-6 py-3 text-base font-semibold rounded-lg transition-all duration-300 text-gray-600 bg-transparent hover:bg-gray-300';
+                healthcareBtn.className = `sector-btn w-full sm:w-auto px-6 py-3 text-base font-semibold rounded-lg transition-all duration-300 ${healthcareTheme.primary} text-white shadow-md`;
+                ecommerceBtn.className = 'sector-btn w-full sm:w-auto px-6 py-3 text-base font-semibold rounded-lg transition-all duration-300 text-gray-600 bg-transparent hover:bg-gray-300';
             } else {
-                financeBtn.className = `sector-btn w-full sm:w-auto px-6 py-3 text-base font-semibold rounded-lg transition-all duration-300 ${sector.theme.primary} text-white shadow-md`;
+                ecommerceBtn.className = `sector-btn w-full sm:w-auto px-6 py-3 text-base font-semibold rounded-lg transition-all duration-300 ${ecommerceTheme.primary} text-white shadow-md`;
                 healthcareBtn.className = 'sector-btn w-full sm:w-auto px-6 py-3 text-base font-semibold rounded-lg transition-all duration-300 text-gray-600 bg-transparent hover:bg-gray-300';
             }
         }
@@ -235,9 +217,9 @@
             }
         });
 
-        financeBtn.addEventListener('click', () => {
-            if (currentSector !== 'finance') {
-                currentSector = 'finance';
+        ecommerceBtn.addEventListener('click', () => { // Changed from financeBtn
+            if (currentSector !== 'ecommerce') { // Changed from 'finance'
+                currentSector = 'ecommerce'; // Changed from 'finance'
                 activeStep = 1; // Reset to first step
                 render();
             }
@@ -251,5 +233,3 @@
     </script>
 </body>
 </html>
-
-
