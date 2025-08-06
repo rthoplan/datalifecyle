@@ -139,7 +139,6 @@
                         <button id="json-sub-btn" class="sub-tab-btn">JSON</button>
                         <button id="xml-sub-btn" class="sub-tab-btn">XML</button>
                         <button id="parquet-sub-btn" class="sub-tab-btn">Parquet</button>
-                        <button id="avro-sub-btn" class="sub-tab-btn">Avro</button>
                     </div>
                     <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-b-lg rounded-r-lg">
                         <div id="json-sub-content" class="sub-data-content space-y-2">
@@ -181,22 +180,6 @@
 <span class="json-key">--- Column: quantity ---</span>
 1
 1</code></pre>
-                        </div>
-                        <div id="avro-sub-content" class="sub-data-content hidden space-y-2">
-                            <h3 class="font-semibold text-gray-800 dark:text-gray-200">Concept: Schema-based Binary (Avro)</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">A binary, row-based format that embeds a JSON schema in the file itself. This is great for data streams and handling schema evolution (e.g., adding a new field).</p>
-                            <pre class="code-block"><code><span class="json-comment">// 1. The Schema (defined in JSON)</span>
-{
-  <span class="json-key">"type"</span>: <span class="json-string">"record"</span>,
-  <span class="json-key">"name"</span>: <span class="json-string">"Item"</span>,
-  <span class="json-key">"fields"</span>: [
-    { <span class="json-key">"name"</span>: <span class="json-string">"productID"</span>, <span class="json-key">"type"</span>: <span class="json-string">"string"</span> },
-    { <span class="json-key">"name"</span>: <span class="json-string">"name"</span>, <span class="json-key">"type"</span>: <span class="json-string">"string"</span> },
-    { <span class="json-key">"name"</span>: <span class="json-string">"quantity"</span>, <span class="json-key">"type"</span>: <span class="json-string">"int"</span> }
-  ]
-}
-
-<span class="json-comment">// 2. The Data (stored in a compact binary format, not human-readable)</span></code></pre>
                         </div>
                     </div>
                 </div>
@@ -267,12 +250,10 @@ Key takeaways:
         const jsonSubBtn = document.getElementById('json-sub-btn');
         const xmlSubBtn = document.getElementById('xml-sub-btn');
         const parquetSubBtn = document.getElementById('parquet-sub-btn');
-        const avroSubBtn = document.getElementById('avro-sub-btn');
         
         const jsonSubContent = document.getElementById('json-sub-content');
         const xmlSubContent = document.getElementById('xml-sub-content');
         const parquetSubContent = document.getElementById('parquet-sub-content');
-        const avroSubContent = document.getElementById('avro-sub-content');
 
         function switchSubTab(activeBtn, activeContent) {
             subTabButtons.forEach(btn => btn.classList.remove('active'));
@@ -284,7 +265,6 @@ Key takeaways:
         jsonSubBtn.addEventListener('click', () => switchSubTab(jsonSubBtn, jsonSubContent));
         xmlSubBtn.addEventListener('click', () => switchSubTab(xmlSubBtn, xmlSubContent));
         parquetSubBtn.addEventListener('click', () => switchSubTab(parquetSubBtn, parquetSubContent));
-        avroSubBtn.addEventListener('click', () => switchSubTab(avroSubBtn, avroSubContent));
 
         // --- Initial State ---
         document.addEventListener('DOMContentLoaded', () => {
